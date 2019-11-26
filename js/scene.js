@@ -10,6 +10,8 @@ var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHei
 // Create a renderer (with antialiasing)
 var renderer = new THREE.WebGLRenderer({antialias: true});
 
+var sceneObjects = [];
+
 function initScene()
 {
 	// Set the renderer size to the dimensions of the window
@@ -17,21 +19,28 @@ function initScene()
 	// Add the canvas to the page
 	document.body.appendChild(renderer.domElement);
 	// Create cubes
-	
-	for(var x = 0; x < 10; x++)
+
+	for(var i = 0; i < 500; i++)
 	{
-			number = 1;
-	}
-	// Create a solid-colour material
-	var material = new THREE.MeshLambertMaterial({ color: 0x00ff00});
-	// Create a mesh from this geometry and material
-	var cube = new THREE.Mesh(geometry, material);
+		geometry = new THREE.BoxGeometry(1, 1, 1);
+		material = new THREE.MeshLambertMaterial({ color: 0x0000FF});
+		
+		// Create a mesh from this geometry and material
+		cube = new THREE.Mesh(geometry, material);
 	
-	// Add the cube to the scene
-	scene.add(cube);
+		// Add the cube to the scene
+		scene.add(cube);
+		sceneObjects.push(cube);
+		var num = 30;
+		var num2 = num/2;
+		var x = Math.random()*num;
+		var y = Math.random()*num;
+		var z = Math.random()*num;
+		sceneObjects[i].position.set(x-num2, y-num2, z-num2);
+	}
 
 	// Set camera position
-	camera.position.z = 5;
+	camera.position.z = 50;
 	// initalise lighting
 	addLighting();
 	
@@ -48,11 +57,15 @@ function addLighting()
 	scene.add(ambientLight)
 }
 
+var rot = 0;
 function update()
 {
 	renderer.render(scene, camera);
-	
-	cube.rotation.y += 0.05;
+	rot += 0.005;
+	for(var i = 0; i < 500; i++)
+	{
+		sceneObjects[i].rotation.set(rot, rot, rot);
+	}
 	
 	requestAnimationFrame(update);
 }

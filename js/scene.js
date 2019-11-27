@@ -41,11 +41,10 @@ function windowResize()
 }
 
 var rot = 0;
-
 function update()
 {
 	renderer.render(scene, camera)
-	console.log(mouse);
+
 	rot += 0.005;
 	for(var i = 0; i < 500; i++)
 	{

@@ -13,6 +13,7 @@ function cubeCreator(spawnPos)
 	cube.position.set(spawnPos.x,spawnPos.y,spawnPos.z);
 	scene.add(cube);
 	sceneObjects.push(cube);
+	return cube;
 }
 
 function sphereCreator(spawnPos, size)
@@ -26,6 +27,11 @@ function sphereCreator(spawnPos, size)
 	scene.add(sphere);
 	sceneObjects.push(sphere);
 	return sphere;
+}
+
+function spawnSpaceShip()
+{
+
 }
 
 function orbiter(counter)

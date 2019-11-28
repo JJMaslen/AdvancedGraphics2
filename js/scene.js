@@ -4,9 +4,13 @@ window.addEventListener("load", initScene);
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 var renderer = new THREE.WebGLRenderer({antialias: true});
-var sceneObjects = [];
 var controls;
+// All objects list
+var sceneObjects = [];
+// Spaceship list
+var spaceShips = [];
 
+// Other Stuff
 var counter = 0;
 
 document.addEventListener('mousemove', mouseMove, false);
@@ -21,7 +25,7 @@ function initScene()
 	sun = sphereCreator(pos, 5);
 	planet = sphereCreator(pos, 2);
 	planet.position.set(20,0,0);
-	
+	spaceShips.push(planet);
 	camera.position.z = 50;
 	controls = new THREE.OrbitControls(camera,renderer.domElement);
 	addLighting();	
@@ -47,16 +51,24 @@ function windowResize()
 
 function update()
 {
+	// render scene
 	renderer.render(scene, camera)
-
+	// orbit controls
 	controls.update();
+	// resize window
 	windowResize()
 
+	// Other things
 	counter++;
-	var thing1 = (Math.sin(counter/200))*10;
-	var thing2 = (Math.cos(counter/200))*10;
+	for (i = 0; i < spaceShips.length; i++)
+	{
+		var axis1 = (Math.sin(counter/200))*10;
+		var axis2 = (Math.cos(counter/200))*10;
+		var axis3 = (Math.cos(counter/200))*10;
 
-	planet.position.set(sun.position.x+thing1,sun.position.y+thing2, 0);
+		spaceShips[i].position.set(sun.position.x+axis1,sun.position.y+axis2, sun.position.z+axis3);
+	}
 
+	// Next update
 	requestAnimationFrame(update);
 }

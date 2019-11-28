@@ -7,6 +7,8 @@ var renderer = new THREE.WebGLRenderer({antialias: true});
 var sceneObjects = [];
 var controls;
 
+var counter = 0;
+
 document.addEventListener('mousemove', mouseMove, false);
 document.addEventListener('keydown', keyPress, false);
 function initScene()
@@ -15,8 +17,11 @@ function initScene()
 	document.body.appendChild(renderer.domElement);
 
 	var pos = new THREE.Vector3(0, 0, 0);
-	sphereCreator(pos);
 
+	sun = sphereCreator(pos, 5);
+	planet = sphereCreator(pos, 2);
+	planet.position.set(20,0,0);
+	
 	camera.position.z = 50;
 	controls = new THREE.OrbitControls(camera,renderer.domElement);
 	addLighting();	
@@ -43,7 +48,15 @@ function windowResize()
 function update()
 {
 	renderer.render(scene, camera)
+
 	controls.update();
 	windowResize()
+
+	counter++;
+	var thing1 = (Math.sin(counter/200))*10;
+	var thing2 = (Math.cos(counter/200))*10;
+
+	planet.position.set(sun.position.x+thing1,sun.position.y+thing2, 0);
+
 	requestAnimationFrame(update);
 }

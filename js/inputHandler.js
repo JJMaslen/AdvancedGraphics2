@@ -26,17 +26,3 @@ function keyPress(event)
     var keyCode = event.which;
     ePress = true;
 }
-
-function stuff()
-{
-    var intersects = raycaster.intersectObjects(sceneObjects);
-    
-    for (var i = 0; i < intersects.length; i++)
-    {
-        console.log(intersects[i]);
-        if(intersects.length)
-        {
-            
-        }
-    }   
-}

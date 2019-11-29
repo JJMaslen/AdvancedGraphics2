@@ -1,6 +1,13 @@
-function modelLoader()
+function modelLoader(filePath)
 {
+	var loader = new THREE.GLTFLoader();
 
+	loader.load(filePath, function(gltf) {
+		scene.add(gltf.scene);
+
+	}, undefined, function (error){
+		console.error(error);
+	} );
 }
 
 function cubeCreator(spawnPos)
@@ -18,7 +25,7 @@ function cubeCreator(spawnPos)
 
 function sphereCreator(spawnPos, size)
 {
-	geometry = new THREE.SphereGeometry(size, 10, 10);
+	geometry = new THREE.SphereGeometry(size, 15, 15);
 	material = new THREE.MeshLambertMaterial({ color: 0x0000FF});
 	
 	sphere = new THREE.Mesh(geometry, material);
@@ -30,11 +37,6 @@ function sphereCreator(spawnPos, size)
 }
 
 function spawnSpaceShip()
-{
-
-}
-
-function orbiter(counter)
 {
 
 }

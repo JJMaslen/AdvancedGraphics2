@@ -12,9 +12,7 @@ function keyPress(event)
 
     if (keyCode == 69) // 69 = e
     {
-        var object = sphereCreator(castPosition, 2);
-        spaceShips.push(object);
-        
+        var object = sphereCreator(castPosition, 2);      
     }
 }
 

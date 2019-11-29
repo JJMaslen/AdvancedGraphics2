@@ -3,10 +3,9 @@ function modelLoader(filePath)
 	var loader = new THREE.GLTFLoader();
 
 	loader.load(filePath, function(gltf) {
-		scene.add(gltf.scene);
-
-	}, undefined, function (error){
-		console.error(error);
+		const root = gltf.scene;
+		scene.add(root);
+		return root;
 	} );
 }
 
@@ -36,7 +35,12 @@ function sphereCreator(spawnPos, size)
 	return sphere;
 }
 
-function spawnSpaceShip()
+function shuttleCreator()
 {
-
+	model = modelLoader('models/spaceShip.glb');
+	var object = new THREE.Object3D();
+	object.add(model);
+	scene.add(object);
+	sceneObjects.push(object);
+	return object;
 }

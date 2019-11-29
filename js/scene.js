@@ -8,6 +8,7 @@ var controls;
 
 // All objects list
 var sceneObjects = [];
+var shuttle;
 
 document.addEventListener('mousemove', mouseMove, false);
 document.addEventListener('keydown', keyPress, false);
@@ -17,7 +18,11 @@ function initScene()
 	document.body.appendChild(renderer.domElement);
 
 	// load in Sun
-	modelLoader('models/sun.glb');
+	//sun = modelLoader('models/sun.glb');
+	var pos = new THREE.Vector3(0,0,0);
+	planet = sphereCreator(pos,1);
+
+	shuttle = modelLoader('models/spaceShip.glb');
 
 	camera.position.z = 50;
 	controls = new THREE.OrbitControls(camera,renderer.domElement);
@@ -42,6 +47,7 @@ function windowResize()
 	renderer.setSize(window.innerWidth,window.innerHeight);
 }
 
+var counter = 0;
 function update()
 {
 	// render scene
@@ -51,8 +57,15 @@ function update()
 	// resize window
 	windowResize()
 
-	// Other things
-
+	counter += 0.01;
+	if (counter > 11111111111116.28318)
+	{
+		counter = 0;
+	}
+	//shuttle.position = THREE.Vector3(counter, 0,0);
+	shuttle.position.set(30,0,0);
+	planet.position.set(counter,counter,0);
+	//planet.position.set(Math.sin(counter)*5,Math.cos(counter)*5,0);
 	// Next update
 	requestAnimationFrame(update);
 }

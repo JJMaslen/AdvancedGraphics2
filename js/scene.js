@@ -8,9 +8,13 @@ var controls;
 
 // All objects list
 var sceneObjects = [];
-var spaceShips = [];
+var spaceShuttleList = [];
 var counters = [];
 var orbitDistance = [];
+
+var sun;
+var planet;
+var shuttleModel;
 
 document.addEventListener('mousemove', mouseMove, false);
 document.addEventListener('keydown', keyPress, false);
@@ -20,9 +24,30 @@ function initScene()
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	document.body.appendChild(renderer.domElement);
 
-	// load in Sun
-	//modelLoader('models/sun.glb');
-	sun = sphereCreator(new THREE.Vector3(0,0,0), 6);
+	// Model Loader
+	var gltfLoader = new THREE.GLTFLoader();
+
+	gltfLoader.load("models/spaceShuttle.glb",function(gltf)
+	{
+		const root = gltf.scene;
+		shuttleModel = root.children[0].clone()
+	})
+	
+	gltfLoader.load("models/sun.glb",function(gltf)
+	{
+		const root = gltf.scene;
+		scene.add(root);
+		sun = root;
+	})
+
+	gltfLoader.load("models/planet.glb",function(gltf)
+	{
+		const root = gltf.scene;
+		scene.add(root);
+		planet = root;
+		planet.position.set(0,20,0);
+	})
+
 
 	camera.position.z = 50;
 	controls = new THREE.OrbitControls(camera,renderer.domElement);
@@ -36,7 +61,7 @@ function addLighting()
 	pointLight.position.set(0, 0, 0)
 	scene.add(pointLight)
 	
-	let ambientLight = new THREE.AmbientLight(0x505050)
+	let ambientLight = new THREE.AmbientLight(0xF2F2F2)
 	scene.add(ambientLight)
 }
 
@@ -50,6 +75,8 @@ function windowResize()
 var number = 0;
 function update()
 {
+	number += 0.01;
+
 	// render scene
 	renderer.render(scene, camera)
 	// orbit controls
@@ -57,17 +84,12 @@ function update()
 	// resize window
 	windowResize();
 
-	for(var i = 0; i < spaceShips.length; i++)
+	for(var i = 0; i <spaceShuttleList.length; i++)
 	{
-		var posX = (Math.sin(counters[i])*orbitDistance[i])+sun.position.x;
-		var posY = (Math.cos(counters[i])*orbitDistance[i])+sun.position.y;
-		var posZ = 0+sun.position.z;
-		
-		spaceShips[i].position.set(posX, posY, posZ);
-		counters[i] += 0.01;
+		spaceShuttleList[i].counter += 0.01;
+		spaceShuttleList[i].move(sun.position);
 	}
-	number += 0.01;
-	sun.position.set(number,0,0);
+
 	// Next update
 	requestAnimationFrame(update);
 }

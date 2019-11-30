@@ -1,13 +1,6 @@
 function modelLoader(filePath)
 {
-	var loader = new THREE.GLTFLoader();
-
-	loader.load(filePath, function(gltf) {
-		const root = gltf.scene;
-		scene.add(root);
-		sceneObjects.push(root);
-		return root;
-	} );
+	return 0;
 }
 
 function cubeCreator(spawnPos)
@@ -34,18 +27,5 @@ function sphereCreator(spawnPos, size)
 	scene.add(sphere);
 	sceneObjects.push(sphere);
 
-	spaceShips.push(sphere);
-	counters.push(0);
-	orbitDistance.push(distanceFromOrgin(spawnPos));
 	return sphere;
-}
-
-function shuttleCreator()
-{
-	model = modelLoader('models/spaceShip.glb');
-	var object = new THREE.Object3D();
-	object.add(model);
-	scene.add(object);
-	sceneObjects.push(object);
-	return object;
 }

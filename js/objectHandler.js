@@ -5,6 +5,7 @@ function modelLoader(filePath)
 	loader.load(filePath, function(gltf) {
 		const root = gltf.scene;
 		scene.add(root);
+		sceneObjects.push(root);
 		return root;
 	} );
 }
@@ -32,6 +33,10 @@ function sphereCreator(spawnPos, size)
 	sphere.position.set(spawnPos.x,spawnPos.y,spawnPos.z);
 	scene.add(sphere);
 	sceneObjects.push(sphere);
+
+	spaceShips.push(sphere);
+	counters.push(0);
+	orbitDistance.push(distanceFromOrgin(spawnPos));
 	return sphere;
 }
 

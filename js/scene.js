@@ -2,27 +2,27 @@
 window.addEventListener("load", initScene);
 // Main vars to set up scene
 var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100000);
 var renderer = new THREE.WebGLRenderer({antialias: true});
 var controls;
 
 // All objects list
 var sceneObjects = [];
-var shuttle;
+var spaceShips = [];
+var counters = [];
+var orbitDistance = [];
 
 document.addEventListener('mousemove', mouseMove, false);
 document.addEventListener('keydown', keyPress, false);
+
 function initScene()
 {
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	document.body.appendChild(renderer.domElement);
 
 	// load in Sun
-	//sun = modelLoader('models/sun.glb');
-	var pos = new THREE.Vector3(0,0,0);
-	planet = sphereCreator(pos,1);
-
-	shuttle = modelLoader('models/spaceShip.glb');
+	//modelLoader('models/sun.glb');
+	sun = sphereCreator(new THREE.Vector3(0,0,0), 6);
 
 	camera.position.z = 50;
 	controls = new THREE.OrbitControls(camera,renderer.domElement);
@@ -36,7 +36,7 @@ function addLighting()
 	pointLight.position.set(0, 0, 0)
 	scene.add(pointLight)
 	
-	let ambientLight = new THREE.AmbientLight(0xFFFFFF)
+	let ambientLight = new THREE.AmbientLight(0x505050)
 	scene.add(ambientLight)
 }
 
@@ -47,7 +47,7 @@ function windowResize()
 	renderer.setSize(window.innerWidth,window.innerHeight);
 }
 
-var counter = 0;
+var number = 0;
 function update()
 {
 	// render scene
@@ -55,17 +55,19 @@ function update()
 	// orbit controls
 	controls.update();
 	// resize window
-	windowResize()
+	windowResize();
 
-	counter += 0.01;
-	if (counter > 11111111111116.28318)
+	for(var i = 0; i < spaceShips.length; i++)
 	{
-		counter = 0;
+		var posX = (Math.sin(counters[i])*orbitDistance[i])+sun.position.x;
+		var posY = (Math.cos(counters[i])*orbitDistance[i])+sun.position.y;
+		var posZ = 0+sun.position.z;
+		
+		spaceShips[i].position.set(posX, posY, posZ);
+		counters[i] += 0.01;
 	}
-	//shuttle.position = THREE.Vector3(counter, 0,0);
-	shuttle.position.set(30,0,0);
-	planet.position.set(counter,counter,0);
-	//planet.position.set(Math.sin(counter)*5,Math.cos(counter)*5,0);
+	number += 0.01;
+	sun.position.set(number,0,0);
 	// Next update
 	requestAnimationFrame(update);
 }

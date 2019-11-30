@@ -1,6 +1,6 @@
 var ePress = false;
 var castPosition;
-
+var yMove = 20;
 function mouseMove(event)
 {
     castRay(event);
@@ -9,12 +9,23 @@ function mouseMove(event)
 function keyPress(event)
 {
     var keyCode = event.which;
-
     if (keyCode == 69) // 69 = e
     {
-        var ship = new Shuttle(shuttleModel.clone(),castPosition)
+        var ship = new Shuttle(shuttleModel.clone(),planet.position)
         spaceShuttleList.push(ship);
         scene.add(ship.shuttleObject);
+    }
+
+    if (keyCode == 87) // 87 = w
+    {
+        yMove += 0.5;
+        planet.position.set(0,yMove,0);
+    }
+
+    if (keyCode == 83) // 83 = s
+    {
+        yMove -= 0.5;
+        planet.position.set(0,yMove,0);
     }
 }
 

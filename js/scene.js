@@ -48,7 +48,6 @@ function initScene()
 		planet.position.set(0,20,0);
 	})
 
-
 	camera.position.z = 50;
 	controls = new THREE.OrbitControls(camera,renderer.domElement);
 	addLighting();	
@@ -87,7 +86,8 @@ function update()
 	for(var i = 0; i <spaceShuttleList.length; i++)
 	{
 		spaceShuttleList[i].counter += 0.01;
-		spaceShuttleList[i].move(sun.position);
+		spaceShuttleList[i].updatePosition(sun.position);
+		spaceShuttleList[i].updateRotation();
 	}
 
 	// Next update

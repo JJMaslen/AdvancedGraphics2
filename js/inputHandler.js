@@ -19,13 +19,13 @@ function keyPress(event)
     if (keyCode == 87) // 87 = w
     {
         yMove += 0.5;
-        planet.position.set(0,yMove,0);
+        planet.position.set(sunNumber,sunNumber+yMove,sunNumber);
     }
 
     if (keyCode == 83) // 83 = s
     {
         yMove -= 0.5;
-        planet.position.set(0,yMove,0);
+        planet.position.set(sunNumber,sunNumber+yMove,sunNumber);
     }
 
     if (keyCode == 82) // 82 = r

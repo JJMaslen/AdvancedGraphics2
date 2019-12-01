@@ -109,7 +109,7 @@ function update()
 	if (moveSun == true)
 	{
 		sunNumber += 0.01;
-		planet.position.set(sunNumber,sunNumber+20,sunNumber);
+		planet.position.set(sunNumber,sunNumber+yMove,sunNumber);
 		sun.position.set(sunNumber,sunNumber,sunNumber);
 	}
 

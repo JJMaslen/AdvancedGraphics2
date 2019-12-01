@@ -27,6 +27,26 @@ function keyPress(event)
         yMove -= 0.5;
         planet.position.set(0,yMove,0);
     }
+
+    if (keyCode == 82) // 82 = r
+    {
+        demo = true;
+    }
+
+    if (keyCode == 84) // 84 = t
+    {
+        demo = false;
+    }
+
+    if (keyCode == 90)
+    {
+        moveSun = true;
+    }
+
+    if (keyCode == 88)
+    {
+        moveSun = false;
+    }
 }
 
 function castRay(event)
@@ -39,4 +59,24 @@ function castRay(event)
 
     raycaster.setFromCamera(mouse, camera);
     castPosition = raycaster.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(camera.position.x,camera.position.y,camera.position.z)));
+}
+
+function demoShips(number)
+{
+    probability = Math.random();
+    position = Math.random();
+
+    spawn = new THREE.Vector3(0,0,0);
+    spawn.y = (position*100)+20;
+    if (probability > 0.6)
+    {
+        var ship = new Shuttle(shuttleModel.clone(),spawn);
+        spaceShuttleList.push(ship);
+        scene.add(ship.shuttleObject);
+    }
+
+    if (spaceShuttleList.length > 500)
+    {
+        demo = false;
+    }
 }

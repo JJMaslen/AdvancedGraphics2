@@ -3,8 +3,10 @@ window.addEventListener("load", initScene);
 // Main vars to set up scene
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100000);
-var renderer = new THREE.WebGLRenderer({antialias: true});
+var renderer = new THREE.WebGLRenderer({antialias: true, alpha:true});
 var controls;
+
+renderer.setClearColor(0x000000, 0.5);
 
 // All objects list
 var sceneObjects = [];
@@ -15,6 +17,9 @@ var orbitDistance = [];
 var sun;
 var planet;
 var shuttleModel;
+
+var demo = false;
+var moveSun = false;
 
 document.addEventListener('mousemove', mouseMove, false);
 document.addEventListener('keydown', keyPress, false);
@@ -48,7 +53,13 @@ function initScene()
 		planet.position.set(0,20,0);
 	})
 
-	camera.position.z = 50;
+	// texture Loader
+	var textureLoader = new THREE.TextureLoader();
+	textureLoader.load('images/background.jpg', function(texture)
+	{
+		scene.background = texture;
+	})
+	camera.position.z = 150;
 	controls = new THREE.OrbitControls(camera,renderer.domElement);
 	addLighting();	
 	update();
@@ -71,11 +82,10 @@ function windowResize()
 	renderer.setSize(window.innerWidth,window.innerHeight);
 }
 
-var number = 0;
+var demoNumber = 0;
+var sunNumber = 0;
 function update()
 {
-	number += 0.01;
-
 	// render scene
 	renderer.render(scene, camera)
 	// orbit controls
@@ -85,9 +95,22 @@ function update()
 
 	for(var i = 0; i <spaceShuttleList.length; i++)
 	{
-		spaceShuttleList[i].counter += 0.01;
+		spaceShuttleList[i].counter += spaceShuttleList[i].counterIncrease;
 		spaceShuttleList[i].updatePosition(sun.position);
 		spaceShuttleList[i].updateRotation();
+	}
+
+	if (demo == true)
+	{
+		demoNumber += 0.01;
+		demoShips(demoNumber);
+	}
+
+	if (moveSun == true)
+	{
+		sunNumber += 0.01;
+		planet.position.set(sunNumber,sunNumber+20,sunNumber);
+		sun.position.set(sunNumber,sunNumber,sunNumber);
 	}
 
 	// Next update

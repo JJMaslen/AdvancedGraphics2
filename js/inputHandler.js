@@ -63,20 +63,20 @@ function castRay(event)
 
 function demoShips(number)
 {
+    if (spaceShuttleList.length > 500)
+    {
+        demo = false;
+    }
+
     probability = Math.random();
     position = Math.random();
 
     spawn = new THREE.Vector3(0,0,0);
     spawn.y = (position*100)+20;
-    if (probability > 0.6)
+    if (probability > 0.5)
     {
         var ship = new Shuttle(shuttleModel.clone(),spawn);
         spaceShuttleList.push(ship);
         scene.add(ship.shuttleObject);
-    }
-
-    if (spaceShuttleList.length > 500)
-    {
-        demo = false;
     }
 }

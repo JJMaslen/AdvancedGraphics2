@@ -1,8 +1,3 @@
-function modelLoader(filePath)
-{
-	return 0;
-}
-
 function cubeCreator(spawnPos)
 {
 	geometry = new THREE.CubeGeometry(1, 1, 1);

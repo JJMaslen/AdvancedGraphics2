@@ -13,7 +13,6 @@ class Shuttle
         this.orbitDistance = distanceFromOrgin(this.startPosition);
         this.counter = 0;
         this.counterIncrease = ((150-this.orbitDistance)/10000)+(Math.random()/100);
-        console.log(this.counterIncrease);  
     }
 
     updatePosition(orbitObjectPosition)

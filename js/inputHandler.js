@@ -1,10 +1,6 @@
 var ePress = false;
 var castPosition;
 var yMove = 20;
-function mouseMove(event)
-{
-    castRay(event);
-}
 
 function keyPress(event)
 {
@@ -38,27 +34,15 @@ function keyPress(event)
         demo = false;
     }
 
-    if (keyCode == 90)
+    if (keyCode == 90) // 90 = z
     {
         moveSun = true;
     }
 
-    if (keyCode == 88)
+    if (keyCode == 88) // 88 = x
     {
         moveSun = false;
     }
-}
-
-function castRay(event)
-{
-    var raycaster = new THREE.Raycaster();
-    var mouse = new THREE.Vector2();
-
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-    raycaster.setFromCamera(mouse, camera);
-    castPosition = raycaster.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(camera.position.x,camera.position.y,camera.position.z)));
 }
 
 function demoShips(number)

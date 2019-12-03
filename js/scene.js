@@ -6,24 +6,34 @@ var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHei
 var renderer = new THREE.WebGLRenderer({antialias: true, alpha:true});
 var controls;
 
-renderer.setClearColor(0x000000, 0.5);
-
+var shaders = ShaderLoader.getShaders("shaders/vertex.vert","shaders/fragment.frag");
 // All objects list
 var sceneObjects = [];
 var spaceShuttleList = [];
-var counters = [];
-var orbitDistance = [];
 
+// Objects in scene
 var sun;
 var planet;
 var shuttleModel;
 
+// Demo variables
 var demo = false;
 var moveSun = false;
 
-document.addEventListener('mousemove', mouseMove, false);
 document.addEventListener('keydown', keyPress, false);
 
+var uniforms = {
+	texture1: { type: "t", value: THREE.ImageUtils.loadTexture( "models/textures/noiseTexture.png" ) }
+}
+
+shaderMaterial = new THREE.ShaderMaterial(
+{
+	uniforms: uniforms,
+	vertexShader:shaders.vertex,
+	fragmentShader:shaders.fragment
+});
+
+demoShader = false;
 function initScene()
 {
 	renderer.setSize(window.innerWidth, window.innerHeight);
@@ -34,6 +44,14 @@ function initScene()
 
 	gltfLoader.load("models/spaceShuttle.glb",function(gltf)
 	{
+		if (demoShader == true)
+		{
+			gltf.scene.traverse(function (child){
+				if (child.isMesh){
+					child.material = shaderMaterial;
+				}
+			})
+		}
 		const root = gltf.scene;
 		shuttleModel = root.children[0].clone()
 	})
@@ -41,19 +59,24 @@ function initScene()
 	gltfLoader.load("models/sun.glb",function(gltf)
 	{
 		const root = gltf.scene;
-		scene.add(root);
 		sun = root;
+		scene.add(sun);
 	})
 
 	gltfLoader.load("models/planet.glb",function(gltf)
 	{
+		gltf.scene.traverse(function (child){
+			if (child.isMesh){
+				child.material = shaderMaterial;
+			}
+		})
 		const root = gltf.scene;
-		scene.add(root);
 		planet = root;
 		planet.position.set(0,20,0);
+		scene.add(root);
 	})
 
-	// texture Loader
+	// load in background image
 	var textureLoader = new THREE.TextureLoader();
 	textureLoader.load('images/background.jpg', function(texture)
 	{
@@ -61,13 +84,14 @@ function initScene()
 	})
 	camera.position.z = 150;
 	controls = new THREE.OrbitControls(camera,renderer.domElement);
+
 	addLighting();	
 	update();
 }
 
 function addLighting()
 {
-	let pointLight = new THREE.PointLight(0xdddddd)
+	let pointLight = new THREE.PointLight(0xdddddd, 10)
 	pointLight.position.set(0, 0, 0)
 	scene.add(pointLight)
 	
@@ -112,7 +136,7 @@ function update()
 		planet.position.set(sunNumber,sunNumber+yMove,sunNumber);
 		sun.position.set(sunNumber,sunNumber,sunNumber);
 	}
-
+	
 	// Next update
 	requestAnimationFrame(update);
 }

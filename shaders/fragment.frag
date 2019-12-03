@@ -14,7 +14,7 @@ void main()
 
     float shine = 10.0;
 
-    vec3 ambient = vec3(0,0.5,0) * 0.2;
+    vec3 ambient = material * 0.2;
 
     vec3 diffuse = material * max(0.0, dot(light, fNormal)) * 0.5;
 

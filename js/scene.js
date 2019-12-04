@@ -6,7 +6,9 @@ var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHei
 var renderer = new THREE.WebGLRenderer({antialias: true, alpha:true});
 var controls;
 
+// create shader variable
 var shaders = ShaderLoader.getShaders("shaders/vertex.vert","shaders/fragment.frag");
+
 // All objects list
 var sceneObjects = [];
 var spaceShuttleList = [];
@@ -16,16 +18,19 @@ var sun;
 var planet;
 var shuttleModel;
 
-// Demo variables
+// variables used for Demo purposes
 var demo = false;
 var moveSun = false;
 
+// detects when the user presses a key on the keyboard and calls the keyPress function
 document.addEventListener('keydown', keyPress, false);
 
+// loads in a texture for the shader
 var uniforms = {
 	texture1: { type: "t", value: THREE.ImageUtils.loadTexture( "models/textures/noiseTexture.png" ) }
 }
 
+// sets up the shader to use unifroms and the two shader files in the shader folder
 shaderMaterial = new THREE.ShaderMaterial(
 {
 	uniforms: uniforms,
@@ -33,7 +38,6 @@ shaderMaterial = new THREE.ShaderMaterial(
 	fragmentShader:shaders.fragment
 });
 
-demoShader = false;
 function initScene()
 {
 	renderer.setSize(window.innerWidth, window.innerHeight);
@@ -44,14 +48,6 @@ function initScene()
 
 	gltfLoader.load("models/spaceShuttle.glb",function(gltf)
 	{
-		if (demoShader == true)
-		{
-			gltf.scene.traverse(function (child){
-				if (child.isMesh){
-					child.material = shaderMaterial;
-				}
-			})
-		}
 		const root = gltf.scene;
 		shuttleModel = root.children[0].clone()
 	})

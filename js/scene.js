@@ -91,7 +91,7 @@ function initScene()
 
 function addLighting()
 {
-	let pointLight = new THREE.PointLight(0xdddddd, 10)
+	let pointLight = new THREE.PointLight(0xdddddd, 30)
 	pointLight.position.set(0, 0, 0)
 	scene.add(pointLight)
 	

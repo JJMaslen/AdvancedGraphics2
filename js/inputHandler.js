@@ -29,11 +29,6 @@ function keyPress(event)
         demo = true;
     }
 
-    if (keyCode == 84) // 84 = t
-    {
-        demo = false;
-    }
-
     if (keyCode == 90) // 90 = z
     {
         moveSun = true;
